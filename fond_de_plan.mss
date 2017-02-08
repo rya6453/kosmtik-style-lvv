@@ -17,17 +17,18 @@ polygon-fill:@fleuve;
   
 }
 
-
-#communes [zoom >=12][zoom <=14]{
+#commune [zoom >=12][zoom <=14]{
 
   line-color:#C759FF;  
-  line-width: 2;
+  line-width: 1;
   line-join: round;
   line-dasharray : 5, 15,5;
 
 
 
 }
+
+
 
 
 #bati{

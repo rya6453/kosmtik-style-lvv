@@ -61,7 +61,7 @@ Layer:
     Datasource:
       <<: *osm2pgsql
       table: "(select way , landuse  from planet_osm_polygon where leisure in ('pitch','garden','park','playground','sports_centre','common') or landuse in ('forest','meadow') ) as surfaces"
-      
+      simplify_geometries: 'true'
     id: surfaces  
     
   - name: eau
@@ -69,7 +69,7 @@ Layer:
     Datasource:
       <<: *osm2pgsql
       table: "/* eau */(select way , name from planet_osm_polygon where water = 'river' or waterway = 'riverbank' or \"natural\" = 'water' or leisure = 'marina') as eau"
-      
+      simplify_geometries: 'true'
     id: eau   
     
   - name: riviere
@@ -77,15 +77,24 @@ Layer:
     Datasource:
       <<: *osm2pgsql
       table: " /* riviere */ (select way , name from planet_osm_line where waterway in ('river' ,'stream','canal','weir') )as riviere"
-      
+      simplify_geometries: 'true'
     id: riviere 
+    
+  - name: commune
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: " /* riviere */ ( select way, admin_level from planet_osm_line where boundary = 'administrative' and admin_level in ('8','9') )as riviere"
+      simplify_geometries: 'true'
+    id: commune     
     
 
   - name: zone_pietonne
     <<: *extents
     Datasource:
       <<: *osm2pgsql
-      table: " /* riviere */ (select way from planet_osm_polygon where highway='pedestrian' ) as zone_pietonne"
+      table: " /* zone pietonne */ (select way from planet_osm_polygon 
+      where highway='pedestrian' ) as zone_pietonne"
       
     id: zone_pietonne     
   
@@ -103,7 +112,74 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
-      table:  "(select way , highway, name,case when highway in ('motorway','motorway_link','trunk','trunk_link' ) then 'oui'::text      \n\telse null\nend as autoroute,\n\ncase when highway in ('primary','primary_link')\n\tthen 'oui'::text      \n\telse null\nend as route_rouge,\n\ncase when highway in ('secondary','secondary_link','tertiary','tertiary_link')\n\tthen 'oui'::text      \n\telse null\nend as route_jaune,\n\n\ncase when highway in ('residential','service','unclassified','living_street') \n                                          -- and bicycle is null\n\tthen 'oui'::text      \n\telse null\nend as route_blanche,\n\n\ncase when highway in ('track','footway','path') \n                                \n        \n\tthen 'oui'::text      \n\telse null\nend as chemin_simple,\n\ncase when  (oneway = 'yes'  and railway is null )\n    \n\tthen 'oui'::text      \n\telse 'non'::text\nend as su ,\n\ncase when oneway = 'yes' and (cycleway in ('opposite','opposite_lane')\n      or (\"cycleway:left\" in ('opposite','opposite_lane')))\n\tthen 'oui'::text      \n\telse 'non'::text\nend as dsc,\n\ncase when railway  in ('rail','tram','plateform','abandoned')\n\tthen 'oui'::text      \n\telse null\nend as rail ,\n\ncase when tunnel in ('yes','building_passage','culvert')\n        then 'oui'::text\n        else 'non'::text\nend as tunnel ,\n\ncase when bridge in ('yes','viaduct','suspension','arch')\n        then 'oui'::text\n        else 'non'::text\nend as pont ,\n\ncase when (highway='path' and motor_vehicle='no') or \n                     (highway='path' and bicycle='designated') or\n                      (highway='service' and bicycle='designated')  or\n                      highway='cycleway'\n      then 'oui'::text\n     else null \nend as voieverte,\n\ncase when ((cycleway='lane' and (oneway is null or oneway='no')) or \n      (\"cycleway:right\"='lane' and \"cycleway:left\"='lane'))\n     then 'oui'::text\n     else null\nend as bandes ,\n\ncase when (\"cycleway:right\"='lane' or (cycleway='lane' and oneway in ('yes','1')))\n     then 'oui'::text\n     else null\nend as bande_droite ,\n\n\ncase when (\"cycleway:left\"='lane' )\n     then 'oui'::text\n     else null\nend as bande_gauche ,\n\ncase when  (\"cycleway:right\"='share_busway'  or\n          (cycleway='share_busway' ) \n         )\n\n     then 'oui'::text\n    else null\nend as bus_droite_direct ,\n\ncase when  (\"cycleway:left\"='share_busway' or \n         \"cycleway:left\"='opposite_share_busway' or \n          (cycleway='share_busway'  and oneway is null     )\n\n)\n     then 'oui'::text\n    else null\nend as bus_gauche_inverse ,\n\n\n\n \n\ncycleway , \"cycleway:left\",\"cycleway:right\",bicycle from planet_osm_line order by z_order )  as route"
+      table:  "(select way , highway, name,
+      
+      case when highway in ('motorway','motorway_link','trunk','trunk_link' ) then 'oui'::text 
+      else null end as autoroute, 
+      
+      case when highway in ('primary','primary_link') then 'oui'::text
+      else null end as route_rouge,
+      
+      case when highway in ('secondary','secondary_link','tertiary','tertiary_link') then 'oui'::text
+      else null end as route_jaune,
+      
+      case when highway in ('residential','service','unclassified','living_street') 
+      and bicycle is null then 'oui'::text 
+      else null end as route_blanche,
+      
+      case when highway in ('track','footway','path') then 'oui'::text
+      else null end as chemin_simple,
+      
+      case when  (oneway = 'yes'  and railway is null ) then 'oui'::text
+      else 'non'::text end as su ,
+      
+      case when oneway = 'yes' and (cycleway in ('opposite','opposite_lane')
+      or (\"cycleway:left\" in ('opposite','opposite_lane'))) then 'oui'::text 
+      else 'non'::text end as dsc,
+      
+      case when railway  in ('rail','tram','plateform','abandoned') then 'oui'::text
+      else null end as rail ,
+      
+      case when tunnel in ('yes','building_passage','culvert')then 'oui'::text
+      else 'non'::text end as tunnel ,
+      case when bridge in ('yes','viaduct','suspension','arch') then 'oui'::text
+      else 'non'::text end as pont ,
+      
+      case when (highway='path' and motor_vehicle='no') 
+      or (highway='path' and bicycle='designated')
+      or (highway='service' and bicycle='designated')
+      or highway='cycleway' then 'oui'::text
+      else null end as voieverte,
+      
+      case when ((cycleway='lane' and (oneway is null or oneway='no'))
+      or (\"cycleway:right\"='lane' and \"cycleway:left\"='lane')) then 'oui'::text
+      else null end as bandes ,
+      
+      case when (\"cycleway:right\"='lane' 
+      or (cycleway='lane' and oneway in ('yes','1'))) then 'oui'::text
+      else null end as bande_droite ,
+      
+      case when (\"cycleway:left\"='lane' ) then 'oui'::text
+      else null end as bande_gauche ,
+      
+      case when  (\"cycleway:right\"='share_busway')  
+      or (cycleway='share_busway' ) then 'oui'::text 
+      else null end as bus_droite_direct ,
+      
+      case when  (\"cycleway:left\"='share_busway' 
+      or \"cycleway:left\"='opposite_share_busway' 
+      or (cycleway='share_busway'  and oneway is null )) then 'oui'::text
+      else null end as bus_gauche_inverse ,
+      
+      cycleway , 
+      
+      \"cycleway:left\",
+      
+      \"cycleway:right\",
+      
+      bicycle 
+      
+      from planet_osm_line order by z_order )  as route"
       
     id: route 
     
@@ -170,3 +246,10 @@ Layer:
       table: "/* mairie */  (select way ,name from planet_osm_point where amenity='townhall' UNION select ST_Centroid(way),name from planet_osm_polygon where amenity='townhall' ) as mairie "
     id: mairie  
 
+  - name: commune
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: " /* riviere */ ( select way, admin_level from planet_osm_line where boundary = 'administrative' and admin_level in ('8','9') )as riviere"
+      simplify_geometries: 'true'
+    id: commune     
