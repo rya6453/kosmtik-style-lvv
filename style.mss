@@ -440,31 +440,76 @@
     line-opacity : 0.5 ; 
     }
     
-    [zoom =16]{
+    [zoom =16]{   
   
     line-width:2;
     line-color:@chemin;
     line-dasharray : 2,2;    
-    line-opacity : 0.6 ; 
+    line-opacity : 0.6 ;     
+    
     }
+    
+    
+    
     [zoom =17]{
   
     line-width:2;
     line-color:@chemin;
     line-dasharray : 2,2;    
     line-opacity : 0.7 ; 
+    }  
+    
+  }     
+  
+
+   [escaliers='oui']{  // ===============  Escaliers ======================
+
+  [zoom =14]{
+  
+    line-width:0.5;
+    line-color:@chemin;
+    //line-dasharray : 2,2;    
+    line-opacity : 0.3 ; 
+    }
+    
+    [zoom =15]{
+  
+    line-width:1;
+    line-color:@chemin;
+    line-dasharray : 2,2;    
+    line-opacity : 0.5 ; 
+    }
+    
+    [zoom =16]{   
+  
+    line-width:2;
+    line-color:@chemin;
+    line-dasharray : 2,2;    
+    line-opacity : 0.6 ;     
+    
     }
     
     
     
+    [zoom =17]{
     
     
-  }     
-  
-   
-  
- 
-  
+    ::A{
+    line-width:3;
+    line-color:@escaliers_fond;
+    
+    }
+    
+    ::B{
+    line-width:3;
+    line-color:@escaliers;
+    line-dasharray : 2,1;    
+    
+    }
+    
+    }  
+    
+  }       
   
   
   

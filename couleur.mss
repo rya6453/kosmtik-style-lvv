@@ -30,6 +30,14 @@
 @fond_pieton : #ECFCED;
 @bord_pieton : #B4B8FF;
 
+
+@chemin : #A52A2A ;
+
+@escaliers : #A62B90 ;
+@escaliers_fond : #FFFFFF ;
+
+
+
 @bati_standard : #E3E1DD;
 @bati_remarquable :#C9C6C1  ;
 
@@ -48,6 +56,6 @@
 @bus : #314ecf;
 @bus_inverse : #c376ec;
 
-@chemin : #A52A2A ;
+
 
 @funiculaire : #f39006;

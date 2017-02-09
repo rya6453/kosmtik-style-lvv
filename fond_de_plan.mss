@@ -59,8 +59,15 @@ polygon-fill:@fleuve;
 
 #surfaces {
   
-  [zoom > 11] {polygon-fill :@surface;}
+  [zoom > 11] {
+  polygon-fill :@surface;
+ 
+  }
   [zoom > 11][landuse = 'forest']{polygon-fill: @surface - 30% ;}
+  
+  
+ 
+  
 }
 
 
