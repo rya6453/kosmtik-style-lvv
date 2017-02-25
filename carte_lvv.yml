@@ -60,7 +60,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
-      table: "(select way , landuse , name from planet_osm_polygon where leisure in ('pitch','garden','park','playground','sports_centre','common') or landuse in ('forest','meadow') ) as surfaces"
+      table: "(select way , landuse , name from planet_osm_polygon where leisure in ('pitch','garden','park','playground','sports_centre','common') or landuse in ('forest','meadow') or \"natural\" in ('wood') ) as surfaces"
       simplify_geometries: 'true'
     id: surfaces  
     
@@ -123,7 +123,8 @@ Layer:
       case when highway in ('secondary','secondary_link','tertiary','tertiary_link') then 'oui'::text
       else null end as route_jaune,
       
-      case when highway in ('residential','service','unclassified','living_street') 
+      case when highway in ('residential','service','unclassified','living_street') and bicycle is null
+             
       then 'oui'::text 
       else null end as route_blanche,
       

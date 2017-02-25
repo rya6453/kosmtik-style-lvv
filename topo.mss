@@ -43,8 +43,8 @@
   [zoom>=14]{    
     text-name : [name];
   	text-face-name : 'DejaVu Sans Condensed Oblique';
-    text-halo-radius : 0.8;    
-    text-size : 12 ;
+    text-halo-radius : 1;    
+    text-size : 14 ;
     text-placement : line ;
     text-fill : @texte_fleuve;
     text-allow-overlap : false ; 

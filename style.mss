@@ -1,19 +1,16 @@
 
 
 #funiculaire{
-   [zoom >13]{
-  ::fond{  
-  line-color: @funiculaire;
-  line-width:3; 
-      }
-    
-   ::milieu{
-      line-width:2;
-     line-color:#000;
-     line-dasharray : 5,5 ;
-      }    
-    }
+
+    [zoom >14]{
+       a/line-color: @funiculaire;
+       a/line-width:3; 
+       b/line-width:2;
+       b/line-color:#000;
+       b/line-dasharray : 5,5 ;
+    }    
 }
+
 
 
 
@@ -47,8 +44,7 @@
       line-join: round;
       line-width: 1;
       [zoom >=16]{ line-width :2;}
-      }
-    
+      }    
     
     [tunnel='oui']{
       line-color: @rail + 40%;
@@ -57,31 +53,33 @@
       line-dasharray : 5,8 ;
       [zoom >=16]{ line-width :2;}
       }
+      
     
     [pont='oui']{
-      
-      ::fond{  // bordure noire 
+    
+        line-join: round;
         
-      line-color: @pont;
-      
-      line-join: round;
-      [zoom >=13]{ line-width :2;}    
-      [zoom >=16]{ line-width :4;}  
-       } 
+        [zoom >=13]{ 
+            a/line-width :2;
+            a/line-color: @pont;
+            b/line-color: @rail;
+            b/line-width: 1;            
+        } 
         
-      ::milieu{      
-      line-color: @rail;
-      line-width: 1;
-      line-join: round;
+        [zoom >=16]{ 
+            a/line-width :4;
+            a/line-color: @pont;
+            b/line-color: @rail;
+            b/line-width: 2;            
+        } 
       
-      [zoom >=16]{ line-width :2;}
-      }
-      } 
+    } 
+      
     
    }  // fin rail
   
   
- [autoroute='oui']{ //=================== Autoroutes ===============
+ [autoroute='oui']{ //=================== Autoroute ===============
    
  	[tunnel='non']{
       
@@ -101,61 +99,89 @@
         [zoom >=10]{ line-width :2;}
         [zoom >=12]{ line-width :4;}
         [zoom >=14]{ line-width :8;}
-        [zoom >=16]{ line-width :13;}         
+        [zoom >=16]{ line-width :13;line-dasharray : 8,8 ;}         
    
       }  
     
-     [pont='oui']{
+    [pont='oui']{
+     
+        line-cap:round; 
     
-      ::fond{  // bordure noire      
-        line-color:@autoroute_fond;
-       
-        [zoom >=12]{ line-width :5;}
-        [zoom >=14]{ line-width :10;}
-        [zoom >=16]{ line-width :14;}           
-       }    
-     ::milieu{       
-      line-color:@autoroute;
-      line-cap:round;
-      [zoom >=10]{ line-width :2;}
-      [zoom >=12]{ line-width :4;}
-      [zoom >=14]{ line-width :8;}
-      [zoom >=16]{ line-width :12;}  
+        [zoom >=10]{
+            a/line-width :3;
+            a/line-color: @pont;
+            b/line-width :2;
+            b/line-color:@autoroute;
+        }
+        
+        [zoom >=12]{
+            a/line-width :5;
+            a/line-color: @pont;
+            b/line-width :4;
+            b/line-color:@autoroute;
+        }
+        
+        [zoom >=14]{
+            a/line-width :10;
+            a/line-color: @pont;
+            b/line-width :8;
+            b/line-color:@autoroute;
+        }
+        
+        [zoom >=16]{
+            a/line-width :14;
+            a/line-color: @pont;
+            b/line-width :12;
+            b/line-color:@autoroute;
+        }
       
-    }        
-  }  
+      
+           
+    }  
     
     
     
-    
-  }  
+}    // fin Autoroute
+
+
   
    [route_rouge='oui']{    //====================  Route primaire =====================
-       
+   
+        line-cap: round;
+        line-join: round;
     
     
-    [tunnel='non']{       
-      
-      [zoom >=11]{line-width:3;
-            line-color: @route_rouge; 
-            line-join: round;
-            line-cap:round;        
+    [tunnel='non']{    
         
-        }
-       ::fond{  // bordure noire 
-             line-color: @route_rouge_fond;  
-              [zoom >=13]{line-width:5;}
-              [zoom >=15]{line-width:7;}
-              [zoom >=17]{line-width:9;}
-            
+              
+      
+        [zoom >=11]{
+      
+            line-width:3;
+            line-color: @route_rouge; 
+                    
             }
-          
-           ::milieu{ 
-               line-color: @route_rouge; 
-               [zoom >=13]{line-width:4;}
-               [zoom >=15]{line-width:6;}
-               [zoom >=17]{line-width:8;}
-            }              
+       
+        [zoom >=13]{       
+            a/line-color: @route_rouge_fond; 
+            a/line-width:5;
+            b/line-color: @route_rouge;
+            b/line-width:4;              
+            }
+            
+        [zoom >=15]{       
+            a/line-color: @route_rouge_fond; 
+            a/line-width:7;
+            b/line-color: @route_rouge;
+            b/line-width:6;              
+            }
+            
+        [zoom >=17]{       
+            a/line-color: @route_rouge_fond; 
+            a/line-width:9;
+            b/line-color: @route_rouge;
+            b/line-width:8;              
+            }     
             
       } 
     
@@ -179,27 +205,37 @@
     
       
       [pont='oui']{ //pont
+      
+        line-join: round;
+        line-cap:round;   
         
-        [zoom >=11]{
-          line-color: @route_rouge; 
-          line-join: round;
-          line-cap:round;  
+        [zoom >=11]{ 
+            line-width:3;       
+            line-color: @route_rouge; 
+        }  
         
-          ::fond{  // bordure noire 
-             line-color: @pont; 
-              [zoom >=13]{line-width:6;}
-              [zoom >=15]{line-width:8;}
-              [zoom >=17]{line-width:11;}
-            
-            }
-          
-           ::milieu{ 
-               line-color: @route_rouge; 
-               [zoom >=13]{line-width:4;}
-               [zoom >=15]{line-width:6;}
-               [zoom >=17]{line-width:8;}
-            }              
-          }        
+        [zoom >=13]{ 
+            a/line-width:6;
+            a/line-color: @pont;   
+            b/line-width:4;     
+            b/line-color: @route_rouge; 
+        }  
+        
+        [zoom >=15]{ 
+            a/line-width:8;
+            a/line-color: @pont;   
+            b/line-width:6;     
+            b/line-color: @route_rouge; 
+        }  
+        
+        [zoom >=17]{ 
+            a/line-width:11;
+            a/line-color: @pont;   
+            b/line-width:8;    
+            b/line-color: @route_rouge; 
+        }  
+        
+              
         } // fin pont 
     
     
@@ -212,35 +248,59 @@
   
   
   
-   [route_jaune='oui'] {    //===============  route secondaire  ======
+   [route_jaune='oui'] {    //===============  route  Jaune  secondaire  ======
+   
+        line-cap: round;
+        line-join: round;
     
-    [tunnel='non']{             
+    [tunnel='non']{
+    
+        line-join: round;
+        line-cap:round;              
       
-       [zoom >=12]{
-          line-color: @route_jaune; 
-          line-join: round;
-          line-cap:round;  
+        [zoom >=12]{
+            line-color: @route_jaune;             
+        } 
+               
+        [zoom >=13]{             
+            a/line-width: 3;
+            a/line-color:  @route_jaune_fond;
+            b/line-width: 2;
+            b/line-color: @route_jaune; 
+        }
         
-          ::fond{  // bordure noire 
-             line-color:  @route_jaune_fond; 
-              [zoom >=13]{line-width:3;}
-              [zoom >=15]{line-width:6;}
-              [zoom >=17]{line-width:9;}
-            
-            }
-          
-           ::milieu{ 
-               line-color: @route_jaune; 
-               [zoom >=13]{line-width:2;}
-               [zoom >=15]{line-width:5;}
-               [zoom >=17]{line-width:8;}
-               [zoom >=15][dsc='oui']{line-color:@dsc;}
-               [zoom >=16][dsc='oui']{line-color:@dsc;}
-               [zoom >=17][dsc='oui']{line-color:@dsc;}
-            }              
+        [zoom >=15]{             
+            a/line-width: 6;
+            a/line-color:  @route_jaune_fond;
+            b/line-width: 5;
+            b/line-color: @route_jaune; 
+        }
+        
+        [zoom >=17]{             
+            a/line-width: 9;
+            a/line-color:  @route_jaune_fond;
+            b/line-width: 8;
+            b/line-color: @route_jaune; 
+        }
+        
+        [zoom >=15][dsc='oui']{    // ========= avec DSC ==========        
+            a/line-width: 6;
+            a/line-color:  @route_jaune_fond;
+            b/line-width: 5;
+            b/line-color: @dsc; 
+        }
+        
+        [zoom >=17][dsc='oui']{             
+            a/line-width: 9;
+            a/line-color:  @route_jaune_fond;
+            b/line-width: 8;
+            b/line-color: @dsc; 
+        }
+        
+        
+        
       
-      }
-      }  
+    }  
     
     
       
@@ -261,28 +321,37 @@
     
       
       [pont='oui']{
-        
-        [zoom >=12]{
-          line-color: @route_jaune; 
+      
           line-join: round;
           line-cap:round;  
         
-          ::fond{  // bordure noire 
-             line-color: @pont; 
-              [zoom >=13]{line-width:4;}
-              [zoom >=15]{line-width:7;}
-              [zoom >=17]{line-width:10;}
-            
-            }
-          
-           ::milieu{ 
-               line-color: @route_jaune; 
-               [zoom >=13]{line-width:2;}
-               [zoom >=15]{line-width:5;}
-               [zoom >=17]{line-width:8;}
-            }              
-         }        
+        [zoom >=12]{
+          line-color: @route_jaune; 
+        }
+        
+        [zoom >=13]{             
+            a/line-width: 4;
+            a/line-color:  @pont;
+            b/line-width: 2;
+            b/line-color: @route_jaune; 
+        }
+        
+        [zoom >=15]{             
+            a/line-width: 7;
+            a/line-color:  @pont;
+            b/line-width: 5;
+            b/line-color: @route_jaune; 
+        }
+        
+        [zoom >=17]{             
+            a/line-width: 10;
+            a/line-color:  @pont;
+            b/line-width: 8;
+            b/line-color: @route_jaune; 
+        }
+               
       }
+      
    }    // fin route secondaire  
   
   
@@ -293,40 +362,65 @@
   
   
   
- //===============  route mineure ======
+ //===============   route mineure    route blanche     =================
   
-  [route_blanche='oui']{
+    [route_blanche='oui']{ 
     
+        line-join : miter;
+        line-cap : round;
     
-    
-      [tunnel='non']{             
+        [tunnel='non']{  
       
-       [zoom >=14]{
-          line-width: 2;
-          line-color: @route_blanche; 
-          line-join: round;
-          line-cap:round;  
-        
-          ::fond{  // bordure noire 
-             line-color:  @route_blanche_fond; 
-              [zoom >=15]{line-width:4;}
-              [zoom >=16]{line-width:5;}
-              [zoom >=17]{line-width:5.5;}
             
-            }
-          
-           ::milieu{ 
-               line-color: @route_blanche; 
-               [zoom >=15]{line-width:3;}
-               [zoom >=16]{line-width:4;}
-               [zoom >=17]{line-width:5;}
-               [zoom >=15][dsc='oui']{line-color:@dsc;}
-               [zoom >=16][dsc='oui']{line-color:@dsc;}
-               [zoom >=17][dsc='oui']{line-color:@dsc;}
-            }              
+        
+            [zoom >=14]{             
+               line-width: 2;
+               line-color:  @route_blanche; 
+            }             
       
-      }
-      }  
+            [zoom >=15]{             
+                a/line-width: 4;
+                a/line-color:  @route_blanche_fond;
+                b/line-width: 3;
+                b/line-color: @route_blanche; 
+            } 
+               
+            [zoom >=16]{             
+                a/line-width: 5;
+                a/line-color:  @route_blanche_fond;
+                b/line-width: 4;
+                b/line-color: @route_blanche; 
+            } 
+        
+            [zoom >=17]{             
+                a/line-width: 5.5;
+                a/line-color:  @route_blanche_fond;
+                b/line-width: 5;               
+                b/line-color: @route_blanche; 
+              
+            }            
+      
+            [zoom >=15][dsc='oui']{       // ========= avec DSC ==========            
+                a/line-width: 4;
+                a/line-color:  @route_blanche_fond;
+                b/line-width: 3;
+                b/line-color: @dsc; 
+            } 
+            [zoom >=16][dsc='oui']{             
+                a/line-width: 5;
+                a/line-color:  @route_blanche_fond;
+                b/line-width: 4;
+                b/line-color: @dsc; 
+            } 
+        
+            [zoom >=17][dsc='oui']{             
+                a/line-width: 5.5;
+                a/line-color:  @route_blanche_fond;
+                b/line-width: 5;
+                b/line-color: @dsc; 
+            }            
+      
+        }  
     
     
       
@@ -346,168 +440,252 @@
     
     
       
-      [pont='oui']{
+        [pont='oui']{
+      
+            line-join: round;
+            line-cap:round;   
         
         [zoom >=14]{
           line-color: @route_blanche; 
-          line-width: 2;
-          line-join: round;
-          line-cap:round;  
+          line-width: 2;          
+        }
         
-          ::fond{  // bordure noire 
-             line-color: @route_blanche_fond; 
-              [zoom >=15]{line-width:5;}
-              [zoom >=16]{line-width:7;}
-              [zoom >=17]{line-width:9;}
-            
-            }
-          
-           ::milieu{ 
-               line-color: @route_blanche; 
-               [zoom >=15]{line-width:4;}
-               [zoom >=16]{line-width:6;}
-               [zoom >=17]{line-width:8;}
-            }              
-         }        
-      }   
+        [zoom >=15]{
+            a/line-width:5;
+            a/line-color: @route_blanche_fond;
+            b/line-width:4;
+            b/line-color: @route_blanche;
+        }
+        
+        [zoom >=16]{
+            a/line-width:7;
+            a/line-color: @route_blanche_fond;
+            b/line-width:6;
+            b/line-color: @route_blanche;
+        }
+        
+        [zoom >=17]{
+            a/line-width:9;
+            a/line-color: @route_blanche_fond;
+            b/line-width:8;
+            b/line-color: @route_blanche;
+        }
+        
+               
+        }        
+         
     
    
-   }  // fin route mineure
+    }  // fin route mineure
+   
+   
+   
+   
   
- [highway='pedestrian']{
+    [highway='pedestrian']{ 
  
-  [zoom >14]{
-  
-    ::fond{
-     line-width:7;
-     line-color:@bord_pieton;
-      }
-    ::milieu{
-     line-width:3;
-     line-color:@fond_pieton;
-      }
-    
-  }
-  }   
-
-  
-  
- 
-  
-  [voieverte='oui']{ //================ Voie verte = =============
-    [zoom >= 13]{
-      [pont='non']{
-        line-color:  @piste;
-        line-width: 6;
-        line-join: round;
-      }  
-      [pont='oui']{
-        ::fond{  // bordure noire 
-          line-color: @pont;
-          line-width: 7;
-          line-join: round;
-        
-         }
-        ::milieu{   
-          line-color: @piste;
-          line-width: 6;
-          line-join: round;
-        }    
-      }  //fin pont oui     
+        [zoom >=15]{
       
-    } // fin zoom 13
-   }// fin voie verte
-  
-  
-  
-   //============   Chemin Simple  =============
-   
-   [chemin_simple='oui'][voieverte=null]{  
+            a/line-width:7;
+            a/line-color:@bord_pieton;
+            b/line-width:3;
+            b/line-color:@fond_pieton;
+        }
+    }   
 
-  [zoom =14]{
   
-    line-width:0.5;
-    line-color:@chemin;
-    //line-dasharray : 2,2;    
-    line-opacity : 0.3 ; 
-    }
-    
-    [zoom =15]{
   
-    line-width:1;
-    line-color:@chemin;
-    line-dasharray : 2,2;    
-    line-opacity : 0.5 ; 
-    }
-    
-    [zoom =16]{   
+ 
   
-    line-width:2;
-    line-color:@chemin;
-    line-dasharray : 2,2;    
-    line-opacity : 0.6 ;     
+   [voieverte='oui']{ //================ Voie verte ou piste cyclable  =============
+   
+        line-join: round; 
+         
+        [tunnel='non']{
+        
+            [zoom >=13]{            
+            
+                line-width:6;
+                line-color:@piste;
+            }
+        }
+        
+        
+        [tunnel='oui']{
+        
+            [zoom >=13]{
+               
+               a/line-width:8;
+               a/line-dasharray : 3,6; 
+               a/line-color:#888888;
+               b/line-width:6;
+               b/line-color:@piste + 20%;
+            }
+        }
+        
+          
+        [pont='oui']{
+        
+            [zoom >=13]{
+            
+                a/line-width:8;
+                a/line-color:@pont; 
+                b/line-width:6;
+                b/line-color:@piste;
+            }
+        }
     
-    }
-    
-    
-    
-    [zoom =17]{
+     
+   }  
+   
   
-    line-width:2;
-    line-color:@chemin;
-    line-dasharray : 2,2;    
-    line-opacity : 0.7 ; 
-    }  
+  
+  
+   
+   
+    [chemin_simple='oui'][voieverte=null]{  //============   Chemin Simple  =============
     
-  }     
+    
+        [pont='non'] { 
+
+            [zoom =14]{
+  
+                line-width:0.5;
+                line-color:@chemin;
+                //line-dasharray : 2,2;    
+                line-opacity : 0.3 ; 
+            }
+    
+            [zoom =15]{
+  
+                line-width:1;
+                line-color:@chemin;
+                line-dasharray : 2,2;    
+                line-opacity : 0.5 ; 
+            }
+    
+            [zoom =16]{   
+  
+                line-width:2;
+                line-color:@chemin;
+                line-dasharray : 2,2;    
+                line-opacity : 0.6 ;     
+            }  
+    
+    
+            [zoom =17]{
+  
+                line-width:2;
+                line-color:@chemin;
+                line-dasharray : 2,2;    
+                line-opacity : 0.7 ; 
+            }  
+    
+        } 
+        
+        
+        
+        [pont='oui'] { 
+
+            [zoom =14]{
+  
+                line-width:0.5;
+                line-color:@chemin;
+                //line-dasharray : 2,2;    
+                line-opacity : 0.3 ; 
+            }
+    
+            [zoom =15]{
+  
+                line-width:1;
+                line-color:@chemin;
+                line-dasharray : 2,2;    
+                line-opacity : 0.5 ; 
+            }
+    
+            [zoom =16]{   
+  
+                a/line-width:4;
+                a/line-color: @pont;
+                b/line-width:3;
+                b/line-color: #ffffff;
+                c/line-width:2;
+                c/line-color:@chemin;
+                c/line-dasharray : 2,2;    
+                c/line-opacity : 0.6 ;      
+            }  
+    
+    
+            [zoom =17]{
+            
+                a/line-width:6;
+                a/line-color: @pont;
+                b/line-width:4;
+                b/line-color: #ffffff;
+                c/line-width:2;
+                c/line-color:@chemin;
+                c/line-dasharray : 2,2;    
+                c/line-opacity : 0.7 ; 
+            }  
+    
+        } 
+        
+           
+  
+    } 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+   
   
 
    [escaliers='oui']{  // ===============  Escaliers ======================
 
   [zoom =14]{
   
-    line-width:0.5;
-    line-color:@chemin;
-    //line-dasharray : 2,2;    
-    line-opacity : 0.3 ; 
+        line-width:0.5;
+        line-color:@chemin;
+        line-opacity : 0.3 ; 
     }
     
     [zoom =15]{
   
-    line-width:1;
-    line-color:@chemin;
-    line-dasharray : 2,2;    
-    line-opacity : 0.5 ; 
+        line-width:1;
+        line-color:@chemin;
+        line-dasharray : 2,2;    
+        line-opacity : 0.5 ; 
     }
     
     [zoom =16]{   
   
-    line-width:2;
-    line-color:@chemin;
-    line-dasharray : 2,2;    
-    line-opacity : 0.6 ;     
+        line-width:2;
+        line-color:@chemin;
+        line-dasharray : 2,2;    
+        line-opacity : 0.6 ;     
+    
+    } 
+    
+    
+    [zoom =17]{          
+     
+        a/line-width:3;
+        a/line-color:@escaliers_fond;
+        b/line-width:3;
+        b/line-dasharray : 2,1; 
+        b/line-color:@escaliers;
+       
     
     }
     
-    
-    
-    [zoom =17]{
-    
-    
-    ::A{
-    line-width:3;
-    line-color:@escaliers_fond;
-    
-    }
-    
-    ::B{
-    line-width:3;
-    line-color:@escaliers;
-    line-dasharray : 2,1;    
-    
-    }
-    
-    }  
+     
     
   }       
   
